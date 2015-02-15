@@ -1,4 +1,4 @@
-var models = require('../models/index');
+var models = require('../app/models/index');
 
 module.exports = function () {
     var userModel = models.userModel;
