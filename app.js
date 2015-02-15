@@ -1,5 +1,6 @@
 var express = require('express');
 var expressPath = require('express-path');
+var mongoose = require('mongoose');
 var path = require('path');
 var stylus = require('stylus');
 var nib = require('nib');
@@ -9,6 +10,14 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var app = express();
+
+var ENV = app.get('env') || 'development';
+var config = require('./config')(ENV);
+var dbURI = 'mongodb://' + config.db.server + '/' + config.db.name;
+
+process.env.NODE_ENV = ENV;
+
+mongoose.connect(dbURI);
 
 function compile(str, path) {
     return stylus(str)
@@ -65,5 +74,25 @@ app.use(function(err, req, res, next) {
     });
 });
 
+var db = mongoose.connection;
+
+db.on('connected', function() {
+    console.log('Mongoose default connection open to ' + dbURI);
+});
+
+db.on('error', function(err) { 
+    console.log('Mongoose default connection error: ' + err);
+});
+
+db.on('disconnected', function () { 
+    console.log('Mongoose default connection disconnected'); 
+});
+
+process.on('SIGINT', function() {  
+    mongoose.connection.close(function () { 
+        console.log('Mongoose default connection disconnected through app termination'); 
+        process.exit(0); 
+    }); 
+});
 
 module.exports = app;
