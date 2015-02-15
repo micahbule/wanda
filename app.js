@@ -78,6 +78,7 @@ var db = mongoose.connection;
 
 db.on('connected', function() {
     console.log('Mongoose default connection open to ' + dbURI);
+    require('./config/seed.js')();
 });
 
 db.on('error', function(err) { 
