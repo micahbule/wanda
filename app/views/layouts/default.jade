@@ -1,0 +1,13 @@
+doctype html
+html
+    head
+        title= title
+        link(rel='stylesheet', href='/css/kickstart.min.css')
+        link(rel='stylesheet', href='/css/styles.css')
+        block css
+    body
+        include ../includes/navbar
+        div.wrapper.wrapper-fixed
+            block content
+        script(src='/js/kickstart.min.js')
+        block js
