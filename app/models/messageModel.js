@@ -13,6 +13,7 @@ module.exports = function() {
     this.schema = mongoose.Schema({
         date_created: { type: Date, default: Date.now },
         from_id: String,
+        room_id: String,
         connection: { connection_type: { type: String, enum: TYPES }, value: String },
         body: String,
         attachment: String
@@ -22,6 +23,7 @@ module.exports = function() {
         return {
             'id': rawModel._id,
             'from_id': rawModel.from_id,
+            'room_id': rawModel.room_id,
             'date_created': rawModel.date_created,
             'connection': rawModel.connection,
             'body': rawModel.body,
