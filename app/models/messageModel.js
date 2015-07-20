@@ -8,24 +8,24 @@ module.exports = function() {
       , 'voice'
       , 'sms'
     ];
-    this.collection = 'users';
+    this.collection = 'messages';
     
     this.schema = mongoose.Schema({
-        username: String,
-        first_name: String,
-        last_name: String,
         date_created: { type: Date, default: Date.now },
-        connection: [{ connection_type: { type: String, enum: TYPES }, value: String }]
+        from_id: String,
+        connection: { connection_type: { type: String, enum: TYPES }, value: String },
+        body: String,
+        attachment: String
     });
     
     this.schema.statics.toEntity = function(rawModel) {
         return {
             'id': rawModel._id,
-            'username': rawModel.username,
-            'first_name': rawModel.first_name,
-            'last_name': rawModel.last_name,
+            'from_id': rawModel.from_id,
             'date_created': rawModel.date_created,
-            'connection': rawModel.connection
+            'connection': rawModel.connection,
+            'body': rawModel.body,
+            'attachment': rawModel.attachment
         };
     };
     

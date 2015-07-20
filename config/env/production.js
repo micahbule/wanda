@@ -3,6 +3,6 @@
 module.exports = {
     db: {
         server: 'localhost',
-        name: 'sample'
+        name: 'wanda'
     }
 }

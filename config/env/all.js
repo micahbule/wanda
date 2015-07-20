@@ -2,6 +2,6 @@
 
 module.exports = {
     app: {
-        title: 'Express Template'
+        title: 'Wanda'
     }
 }
