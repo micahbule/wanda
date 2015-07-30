@@ -16,3 +16,20 @@ exports.get = function (req, res) {
         return attachmentLib.getAttachment({ params: { id: message.attachment }}, res);
     });
 };
+
+exports.create = function(req, res){
+    var message = new messageModel({
+        from_id    : req.params.userId,
+        room_id    : req.params.roomId,
+        connection : req.params.connection,
+        body       : req.body.body,
+        attachment : req.params.attachment
+    });
+
+    message.save(function (err) {
+        if(err) return res.send({'error': err});
+        
+        var entity = messageModel.toEntity(message);
+        res.send({success: 'New message created', data: {'message': entity}});
+    });
+};
