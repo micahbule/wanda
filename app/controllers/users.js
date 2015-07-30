@@ -31,14 +31,12 @@ exports.get = function (req, res) {
 
 exports.update = function(req, res){
     var queryParams = { _id: req.params.id };
-
     userModel.findOne(queryParams, function (err, user) {
         if(err) return res.send({'error': err});
         if (!user) return res.send({'error': 'No user found with that user id: '+ req.params.id});
         var params = {};
         for (var key in req.body) {
             if (req.body.hasOwnProperty(key)) params[key] = req.body[key];
-            // if expecting new_email and old_email in here, not sure if it will get passed to userModel. Investigate.
         };
 
         delete params.date_created;
@@ -76,7 +74,7 @@ exports.create = function(req, res){
         username        : req.body.username,
         first_name      : req.body.first_name,
         last_name       : req.body.last_name,
-        connection     : req.body.connection
+        connection      : req.body.connection
     });
 
     user.save(function (err) {
