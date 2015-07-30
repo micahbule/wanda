@@ -16,7 +16,8 @@ module.exports = function() {
         room_id: String,
         connection: { connection_type: { type: String, enum: TYPES }, value: String },
         body: String,
-        attachment: String
+        attachment: String,
+        date_edited: Date
     });
     
     this.schema.statics.toEntity = function(rawModel) {
@@ -27,7 +28,8 @@ module.exports = function() {
             'date_created': rawModel.date_created,
             'connection': rawModel.connection,
             'body': rawModel.body,
-            'attachment': rawModel.attachment
+            'attachment': rawModel.attachment,
+            'date_edited': rawModel.date_edited
         };
     };
     
