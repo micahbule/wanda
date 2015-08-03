@@ -33,3 +33,28 @@ exports.create = function(req, res){
         res.send({success: 'New message created', data: {'message': entity}});
     });
 };
+
+exports.update = function(req, res){
+    var queryParams = { _id: req.params.id, from_id: req.params.userId };
+    messageModel.findOne(queryParams, function (err, message) {
+        if(err) return res.send({'error': err});
+        if (!message) return res.send({'error': 'No message found with that message id: '+ req.params.id});
+        var params = {};
+        for (var key in req.body) {
+            if (req.body.hasOwnProperty(key)) params[key] = req.body[key];
+        };
+
+        delete params.date_created;
+        delete params.from_id;
+        delete params.room_id;
+        delete params.connection;
+
+        params.date_edited = new Date();
+
+        message.update({ $set: params },function (err) {
+            if(err) return res.send({'error': err});
+            console.log('Message:', message);
+            res.send({success: 'Message with id ' + req.params.id + ' has been successfully updated'});
+        });
+    });
+};
