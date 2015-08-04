@@ -3,3 +3,9 @@ extends layouts/default
 block content
     h1= title
     p Welcome to #{title}
+
+block js
+    script.
+        var io = io.connect();
+
+        io.emit('users:index');

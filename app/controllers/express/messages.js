@@ -1,4 +1,4 @@
-var models = require('../models/index');
+var models = require('../../models/index');
 var messageModel = models.messageModel;
 var attachmentLib = require('../libraries/attachmentLibrary');
 

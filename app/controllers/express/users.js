@@ -1,6 +1,6 @@
-var models = require('../models/index');
+var models = require('../../models/index');
 var userModel = models.userModel;
-var sessionLib = require('../libraries/sessionLibrary');
+var sessionLib = require('../../libraries/sessionLibrary');
 
 exports.index = function (req, res) {
     var query = userModel.find();

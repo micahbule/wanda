@@ -1,4 +1,4 @@
-var models = require('../models/index');
+var models = require('../../models/index');
 var roomModel = models.roomModel;
 var messageModel = models.messageModel;
 
