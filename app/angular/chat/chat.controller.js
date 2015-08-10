@@ -21,6 +21,7 @@
 
 			SocketsFactory.on('message broadcasted', function (data) {
 				if (Object.keys(vm.chatRoom).length > 0) {
+					if (!vm.chatRoom.messages) vm.chatRoom.messages = [];
 					vm.chatRoom.messages.push(data.message);
 					$('.comments .comment:last-child').scrollTop($('.comments .comment:last-child')[0].scrollHeight);
 				}

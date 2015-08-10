@@ -10,14 +10,14 @@
         var vm = this;
 
         vm.user = {};
-        vm.onlineUsers = [];
+        vm.users = [];
         vm.openChat = openChat;
 
         activate();
 
         function activate() {
-            SocketsFactory.on('online users', function (onlineUsers) {
-                vm.onlineUsers = onlineUsers;
+            SocketsFactory.on('found users', function (data) {
+                vm.users = data.users;
             });
 
             // Temporary Login
@@ -28,26 +28,33 @@
             });
 
             SocketsFactory.on('user connected', function (data) {
-                vm.onlineUsers.push(data.user);
+                toggleUserStatus(data.user);
             });
 
             SocketsFactory.on('user disconnected', function (data) {
-                var user = data.user;
-                for (var i = 0; i < vm.onlineUsers.length; i++) {
-                    if (vm.onlineUsers[i].id === user.id) {
-                        var disconnectedUser = vm.onlineUsers.splice(i, 1)[0];
-                        break;
-                    }
-                }
+                toggleUserStatus(data.user);
             });
         }
 
         function openChat(toId) {
             SocketsFactory.emit('rooms:openChat', { members: [vm.user.id, toId] }, function (room) {
-                var toUser = vm.onlineUsers.filter(function (user) { return user.id === toId; })[0];
+                var toUser = vm.users.filter(function (user) { return user.id === toId; })[0];
 
                 ChatFactory.loadChatRoom(room, toUser);
             });
+        }
+
+        function toggleUserStatus(user) {
+            for (var i = 0; i < vm.users.length; i++) {
+                if (vm.users[i].id === user.id) {
+                    if (typeof(vm.users[i].online) === 'undefined') {
+                        vm.users[i].online = true;
+                    } else {
+                        vm.users[i].online = vm.users[i].online ? false : true;
+                    }
+                    break;
+                }
+            }
         }
     }
 })();

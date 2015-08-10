@@ -17,6 +17,12 @@
 		function loadChatRoom(room, toUser) {
 			if (!room.name && toUser) room.name = toUser.username;
 
+			if (Object.keys(loadedChatRoom).length > 0) {
+				for (var prop in loadedChatRoom) {
+					if (!room[prop]) delete loadedChatRoom[prop];
+				}
+			}
+
 			for (var key in room) {
 				loadedChatRoom[key] = room[key];
 			}

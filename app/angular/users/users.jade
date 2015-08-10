@@ -7,8 +7,9 @@ div.ui.list
 div.ui.divider
 div.ui.small.header Users
 div.ui.list
-  a.item(href="#", ng-repeat="user in vm.onlineUsers", ng-click="vm.openChat(user.id)")
+  a.item(href="#", ng-repeat="user in vm.users", ng-click="vm.openChat(user.id)")
     img.ui.avatar.image(src="/img/picture.jpg")
     div.content
       span.header(ng-bind="user.username")
       div.description(ng-bind="user.first_name + ' ' + user.last_name")
+    i.ui.empty.circular.label.aligned.right.floated(ng-class="user.online ? 'green' : 'grey'", style="margin-top: 10px;")

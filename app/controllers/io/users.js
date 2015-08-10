@@ -4,6 +4,7 @@ module.exports = function (app) {
     var models = require('../../models/index');
     var userModel = models.userModel;
     var sessionLib = require('../../libraries/sessionLibrary');
+    var async = require('async');
 
     var onlineUsers = [];
 
@@ -17,7 +18,7 @@ module.exports = function (app) {
                 onlineUsers.push(userEntity);
                 req.io.respond(userEntity);
                 req.io.broadcast('user connected', { user: userEntity });
-                req.io.route('users:getOnlineUsers');
+                req.io.route('users:index');
             });
         });
     }
@@ -29,10 +30,6 @@ module.exports = function (app) {
                 break;
             }
         }
-    }
-
-    controller.getOnlineUsers = function (req) {
-        req.io.emit('online users', onlineUsers.filter(function (user) { return user.id != req.data.id }));
     }
 
     controller.index = function (req) {
@@ -47,7 +44,14 @@ module.exports = function (app) {
                 entities.push(entity);
             };
 
-            req.io.emit('found users', {success:'Successfully queried users', data:entities});
+            async.map(entities, attachOnlineStatus, function (err, updatedEntities) {
+                var data = {
+                    success: 'Successfully queried users',
+                    users: updatedEntities.filter(function (user) { return user.id.toString() !== req.session.user.id.toString(); })
+                };
+
+                req.io.emit('found users', data);
+            });
         });
     };
 
@@ -137,6 +141,20 @@ module.exports = function (app) {
 
             return callback(null, entity);
         });
+    }
+
+    function attachOnlineStatus(user, callback) {
+        if (onlineUsers.length > 0) {
+            async.detect(onlineUsers, function (onlineUser, cb) {
+                cb(onlineUser.id.toString() === user.id.toString());
+            }, function (isOnline) {
+                if (isOnline) user.online = true;
+
+                callback(null, user);
+            });
+        } else {
+            callback(null, user);
+        }
     }
 
     return controller;
