@@ -13,3 +13,6 @@ div.ui.list
       span.header(ng-bind="user.username")
       div.description(ng-bind="user.first_name + ' ' + user.last_name")
     i.ui.empty.circular.label.aligned.right.floated(ng-class="user.online ? 'green' : 'grey'", style="margin-top: 10px;")
+    div.ui.label.green.aligned.right.floated(ng-show="user.unread > 0")
+      i.mail.icon
+      span(ng-bind="user.unread")

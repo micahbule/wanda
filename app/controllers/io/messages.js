@@ -34,7 +34,7 @@ module.exports = function (app) {
             
             var entity = messageModel.toEntity(message);
             entity.sender = req.session.user;
-            app.io.room(req.data.room.id).broadcast('message broadcasted', { message: entity });
+            app.io.room(req.data.room.id).broadcast('message broadcasted', { room: req.data.room, message: entity });
             req.io.emit('created message', {success: 'New message created', data: {'message': entity}});
         });
     };

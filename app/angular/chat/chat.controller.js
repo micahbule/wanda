@@ -5,7 +5,7 @@
 		.module('app.chat')
 		.controller('ChatController', ChatController);
 
-	function ChatController(ChatFactory, SocketsFactory) {
+	function ChatController(ChatFactory, SocketsFactory, UsersFactory) {
 		/* jshint validthis: true */
 		var vm = this;
 
@@ -20,10 +20,15 @@
 			vm.chatRoom = ChatFactory.getLoadedChatRoom();
 
 			SocketsFactory.on('message broadcasted', function (data) {
-				if (Object.keys(vm.chatRoom).length > 0) {
+				console.log('broadcasted!');
+				if (Object.keys(vm.chatRoom).length > 0 && vm.chatRoom.id === data.room.id) {
+					console.log('here?');
 					if (!vm.chatRoom.messages) vm.chatRoom.messages = [];
 					vm.chatRoom.messages.push(data.message);
 					$('.comments .comment:last-child').scrollTop($('.comments .comment:last-child')[0].scrollHeight);
+				} else {
+					console.log('there?');
+					UsersFactory.addUnread(data.message.from_id);
 				}
 			});
 		}
