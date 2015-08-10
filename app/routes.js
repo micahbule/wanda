@@ -1,4 +1,3 @@
 module.exports = [
-    ['/', 'index#index'],
-    ['/users', 'users#index']
+    ['/', 'index#index']
 ];

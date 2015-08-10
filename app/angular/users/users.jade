@@ -1,0 +1,14 @@
+div.ui.list
+  a.item(href="#")
+    img.ui.avatar.image(src="/img/picture.jpg")
+    div.content
+      span.header(ng-bind="vm.user.username")
+      div.description(ng-bind="vm.user.first_name + ' ' + vm.user.last_name")
+div.ui.divider
+div.ui.small.header Users
+div.ui.list
+  a.item(href="#", ng-repeat="user in vm.onlineUsers", ng-click="vm.openChat(user.id)")
+    img.ui.avatar.image(src="/img/picture.jpg")
+    div.content
+      span.header(ng-bind="user.username")
+      div.description(ng-bind="user.first_name + ' ' + user.last_name")

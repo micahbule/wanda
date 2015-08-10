@@ -1,11 +1,21 @@
-extends layouts/default
+doctype html
+html
+  head
+    title Wanda
+    link(rel="stylesheet", href="/bower/semantic-ui/dist/semantic.min.css")
+    link(rel="stylesheet", href="/bower/ng-notify/dist/ng-notify.min.css")
+    link(rel="stylesheet", href="/css/styles.css")
+  body(ng-app="app")
+    div(ui-view="")
 
-block content
-    h1= title
-    p Welcome to #{title}
+    script(src="/socket.io/socket.io.js")
 
-block js
-    script.
-        var io = io.connect();
+    script(src="/bower/angular/angular.js")
+    script(src="/bower/angular-ui-router/release/angular-ui-router.js")
+    script(src="/bower/angular-socket-io/socket.js")
+    script(src="/bower/ng-notify/dist/ng-notify.min.js")
 
-        io.emit('users:index');
+    script(src='/bower/jquery/dist/jquery.min.js')
+    script(src='/bower/semantic-ui/dist/semantic.min.js')
+
+    script(src="/js/ng.js")

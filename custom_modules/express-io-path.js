@@ -14,7 +14,7 @@ module.exports = function (app, opt) {
 	function loadControllers(controller, callback) {
 		var controllerName = controller.split('.')[0];
 
-		var controllerObj = require(path.join(path.resolve(controllersPath), controllerName));
+		var controllerObj = require(path.join(path.resolve(controllersPath), controllerName))(app);
 
 		app.io.route(controllerName, controllerObj);
 

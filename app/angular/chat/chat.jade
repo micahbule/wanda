@@ -1,0 +1,20 @@
+div.ui.medium.header Chat Feed
+div.ui.divider
+
+h1.ui.header(ng-show="!vm.chatRoom.id") Select User
+div(ng-show="vm.chatRoom.id")
+  div.ui.small.header(ng-bind="vm.chatRoom.name")
+  div.ui.comments(style="height: 500px; overflow-y: auto; max-width: 100%;")
+    div.comment(ng-repeat="message in vm.chatRoom.messages")
+      a.avatar
+        span.photo(ng-class="vm.getHash(message.from_id)")
+      div.content
+        a.author(ng-bind="message.sender.username")
+        div.text(ng-bind="message.body")
+
+div.ui.form(ng-show="vm.chatRoom.id")
+  div.fields
+    div.fourteen.wide.field
+      textarea(ng-model="vm.message", rows="2", style="resize: none")
+    div.two.wide.field
+      button.ui.button.blue(type="button", ng-click="vm.sendMessage()") Send
