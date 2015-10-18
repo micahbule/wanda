@@ -6,6 +6,7 @@
 		.service('SocketsFactory', SocketsFactory);
 
 	function SocketsFactory(socketFactory) {
-		return socketFactory();
+		var socket = io.connect('http://localhost:3000');
+		return socketFactory({ ioSocket: socket });
 	}
 })();

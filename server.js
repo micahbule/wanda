@@ -36,7 +36,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.session({ secret: 'tyt-wanda' }));
+app.use(express.session({ secret: 'tyt-wanda', resave: true, saveUninitialized: true }));
 app.use(stylus.middleware({
     src: __dirname + '/public',
     compile: compile
